@@ -238,6 +238,44 @@ dataset_fields:
     en: 'GeoJSON bounding box. Info: https://geojson.org/geojson-spec.html#bounding-boxes | Draw and Edit: https://geojson.io/ | Only "geometry" dict with "type" and "coordinates" elements'
     es: 'GeoJSON bounding box. Información: https://geojson.org/geojson-spec.html#bounding-boxes | Dibuja y edita en: https://geojson.io/ | Solo el diccionario "geometry" con los elementos "type" y "coordinates"'
 
+# Optional
+# Spatial representation type 
+- field_name: representation_type
+  label: 
+    en: Spatial representation Type
+    es: Tipo de representación espacial
+  preset: select
+  validators: not_empty scheming_required
+  required: false
+  display_property: adms:representationTechnique
+  help_text:
+    en: INSPIRE Themes can be found at https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType'
+    es: 'Tipos de representación espacial INSPIRE disponibles en: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType'
+  choices:
+  - label:
+      en: Rejilla
+      es: Grid
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/grid
+  - label:
+      en: Stereo model
+      es: Modelo estéreo
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/stereoModel
+  - label:
+      en: Text table
+      es: Tabla de texto
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/textTable
+  - label:
+      en: TIN
+      es: TIN
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/tin
+  - label:
+      en: Vector
+      es: Vector
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/vector
+  - label:
+      en: Video
+      es: Vídeo
+    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/video
 
 # Resource (dcat:Distribution) fields
 resource_fields:
