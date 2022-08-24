@@ -179,6 +179,7 @@ dataset_fields:
   preset: select
   validators: not_empty scheming_required
   required: true
+  display_snippet: link.html
   display_property: dcat:theme
   help_text:
     en: INSPIRE Themes can be found at https://inspire.ec.europa.eu/themeTopicCategory'
@@ -286,6 +287,7 @@ resource_fields:
     es: URL
   preset: resource_url_upload
   display_property: dcat:accessURL
+  display_snippet: link.html
 
 # Mandatory
 # Distribution name
@@ -319,6 +321,7 @@ resource_fields:
     en: Rights
     es: Derechos
   preset: select
+  display_snippet: link.html
   display_property: dct:rights
   validators: not_empty scheming_required
   required: true
