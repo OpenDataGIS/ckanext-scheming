@@ -245,8 +245,6 @@ dataset_fields:
     en: Spatial representation Type
     es: Tipo de representación espacial
   preset: select
-  validators: not_empty scheming_required
-  required: false
   display_property: adms:representationTechnique
   help_text:
     en: INSPIRE Themes can be found at https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType'
