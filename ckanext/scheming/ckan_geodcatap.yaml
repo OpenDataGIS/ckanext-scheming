@@ -255,27 +255,27 @@ dataset_fields:
   - label:
       en: Rejilla
       es: Grid
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/grid
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/grid
   - label:
       en: Stereo model
       es: Modelo estéreo
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/stereoModel
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/stereoModel
   - label:
       en: Text table
       es: Tabla de texto
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/textTable
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/textTable
   - label:
       en: TIN
       es: TIN
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/tin
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/tin
   - label:
       en: Vector
       es: Vector
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/vector
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/vector
   - label:
       en: Video
       es: Vídeo
-    value: http://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/video
+    value: https://inspire.ec.europa.eu/metadata-codelist/SpatialRepresentationType/video
 
 # Resource (dcat:Distribution) fields
 resource_fields:
@@ -332,7 +332,7 @@ resource_fields:
   - label:
       en: Public access limited according to Article 13(1)(a) of the INSPIRE Directive
       es: Acceso público limitado según el artículo 13(1)(a) de la Directiva INSPIRE
-    value: http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1a
+    value: https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1a
   help_text:
     en: 'Limitations on public access and additional information can be found at: https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess'
     es: 'Las limitaciones de acceso público y la información adicional pueden encontrarse en: https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess'
