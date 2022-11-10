@@ -1,0 +1,17 @@
+{#
+    Render a list of values
+  
+    list - list of values
+  #}
+  {% set _class = _class or 'snippet-list' %}
+  {% set snippet_list = data[field.field_name].split(',') %}
+  {% block snippet_list %}
+    <ol class="{{ _class }}">
+      {% for value in snippet_list if value|length %}
+        <li>
+          {{ value }}
+        </li>
+      {% endfor %}
+    </ol>
+  {% endblock %}
+  

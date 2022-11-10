@@ -8,11 +8,14 @@
   'owner_org',
   ] -%}
 
-{%- set provenance_info_fields = [
+{%- set md_provenance_fields = [
   'provenance',
   'language',
   'conforms_to',
   'access_rights',
+  'lineage_source',
+  'lineage_process_steps',
+  'source',
   'version_notes',
   'version',
   ] -%}
@@ -23,32 +26,37 @@
     'spatial_resolution_in_meters',
     ] -%}  
 
-{%- set contact_info_fields = [
+{%- set responsible_party_fields = [
   'publisher_uri',
   'publisher_name',
+  'publisher_identifier',
   'publisher_url',
   'publisher_email',
   'publisher_type',
-  'author_name',
+  'author',
   'author_email',
+  'author_uri',
+  'maintainer',
+  'maintainer_email',
+  'maintainer_uri',
   ] -%}
 
 {% block package_additional_info %}
   <section class="additional-info">
-    <h3>{{ _('Additional Info') }}</h3>
+    <h2>{{ _('Additional Info') }}</h2>
 
   <table class="table table-striped table-bordered table-condensed">
   <thead>
     <tr>
-      <td scope="row" colspan="2"><h3><center>{{ _('Identificación') }}</center></h3></td>
+      <td scope="row" colspan="2"><h3><center>{{ _('Metadata identification') }}</center></h3></td>
     </tr>
   </thead>
   <tbody>
   {%- for field in schema.dataset_fields -%}
     {%- if field.field_name not in exclude_fields
-      and field.field_name not in provenance_info_fields
+      and field.field_name not in md_provenance_fields
       and field.field_name not in spatial_info_fields
-      and field.field_name not in contact_info_fields
+      and field.field_name not in responsible_party_fields
         and field.display_snippet is not none -%}
       <tr>
         <th scope="row" class="dataset-label">{{
@@ -72,13 +80,13 @@
   <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
-        <td scope="row" colspan="2"><h3><center>{{ _('Información de procedencia') }}</center></h3></td>
+        <td scope="row" colspan="2"><h3><center>{{ _('Provenance information') }}</center></h3></td>
       </tr>
     </thead>
     <tbody>
     {%- for field in schema.dataset_fields -%}
       {%- if field.field_name not in exclude_fields
-          and field.field_name in provenance_info_fields
+          and field.field_name in md_provenance_fields
           and field.display_snippet is not none -%}
         <tr>
           <th scope="row" class="dataset-label">{{
@@ -96,7 +104,7 @@
   <table class="table table-striped table-bordered table-condensed">
   <thead>
     <tr>
-      <td scope="row" colspan="2"><h3><center>{{ _('Información espacial') }}</center></h3></td>
+      <td scope="row" colspan="2"><h3><center>{{ _('Spatial information') }}</center></h3></td>
     </tr>
   </thead>
   <tbody>
@@ -120,13 +128,13 @@
     <table class="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
-          <td scope="row" colspan="2"><h3><center>{{ _('Información de contacto') }}</center></h3></td>
+          <td scope="row" colspan="2"><h3><center>{{ _('Responsible parties') }}</center></h3></td>
         </tr>
       </thead>
       <tbody>
       {%- for field in schema.dataset_fields -%}
         {%- if field.field_name not in exclude_fields
-            and field.field_name in contact_info_fields
+            and field.field_name in responsible_party_fields
             and field.display_snippet is not none -%}
           <tr>
             <th scope="row" class="dataset-label">{{

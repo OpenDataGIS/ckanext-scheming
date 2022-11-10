@@ -1,0 +1,25 @@
+{#
+    Render a list of INSPIRE Themes linking to the theme page
+  
+    theme - list of themes
+  #}
+  {% set _class = _class or 'theme-list' %}
+  {% set themes_list = data[field.field_name].replace(' ', '').split(',') %}
+  {%- set choices = [] -%}
+  {%- for c in h.scheming_field_choices(field) -%}
+    {%- do choices.append(
+      (c.value, h.scheming_language_text(c.label))) -%}
+  {%- endfor -%}
+  
+  {% block theme_list %}
+    <ul class="{{ _class }}">
+      {%- for val, label in choices -%}
+        {%- if val in themes_list -%}
+          <li>
+              <a class="{% block theme_list_item_class %}{{ val }}{% endblock %}" href="{{ val }}">{{ label }}</a>
+          </li>
+        {%- endif -%}
+      {% endfor %}
+    </ul>
+  {% endblock %}
+  

@@ -134,11 +134,10 @@ def scheming_multiple_choice(field, schema):
             errors[key].append(_('unexpected choice "%s"') % element)
 
         if not errors[key]:
-            data[key] = json.dumps([
-                v for v in
+             # Return as a string list of values
+            data[key] = ','.join([v for v in
                 (static_choice_order if static_choice_values else choice_order)
-                if v in selected
-            ])
+                if v in selected])
 
             if field.get('required') and not selected:
                 errors[key].append(_('Select at least one'))
@@ -446,12 +445,15 @@ def scheming_multiple_text(field, schema):
                                             % element)
                         continue
 
+                # Avoid errors
+                element=element.replace(',', ';')
                 out.append(element)
 
             if errors[key]:
                 raise StopOnError
 
-            data[key] = json.dumps(out)
+            # Return as a string list of values
+            data[key] = ','.join([h for h in out])
 
         if (data[key] is missing or data[key] == '[]') and field.get('required'):
             errors[key].append(_('Missing value'))

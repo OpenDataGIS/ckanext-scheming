@@ -56,9 +56,12 @@
       {
         "field_name": "publisher_type",
         "label": "Tipo de publicador",
-        "output_validators": "ignore_missing",
+        "output_validators": "not_empty scheming_required",
         "form_placeholder": "http://purl.org/adms/publishertype/NationalAuthority",
-        "help_text": "Tipo de publicador: 'http://purl.org/adms/publishertype/1.0'",
+        "display_snippet": "link.html",
+        "form_include_blank_choice": "False",
+        "form_snippet": "select.html",
+        "help_text": "Tipo de publicador: http://purl.org/adms/publishertype/1.0",
         "choices": [
           {
               "label": "Autoridad nacional",

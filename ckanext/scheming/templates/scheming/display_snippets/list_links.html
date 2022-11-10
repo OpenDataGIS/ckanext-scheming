@@ -1,0 +1,16 @@
+{#
+  Render a list of links
+
+  list - list of links
+#}
+{% set _class = _class or 'snippet-list' %}
+{% set snippet_list = data[field.field_name].replace(' ', '').split(',') %}
+{% block snippet_list %}
+  <ul class="{{ _class }}">
+    {% for value in snippet_list if value|length %}
+      <li>
+        <a class="{% block theme_list_item_class %}{{ value }}{% endblock %}" href="{{ value }}">{{ value }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
