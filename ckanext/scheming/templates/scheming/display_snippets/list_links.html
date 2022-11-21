@@ -3,8 +3,9 @@
 
   list - list of links
 #}
-{% set _class = _class or 'snippet-list' %}
+{% set _class = _class or 'link-list' %}
 {% set snippet_list = data[field.field_name].replace(' ', '').split(',') %}
+
 {% block snippet_list %}
   <ul class="{{ _class }}">
     {% for value in snippet_list if value|length %}
