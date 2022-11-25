@@ -16,9 +16,9 @@
     {%- for val, label in choices -%}
       {%- if val in themes_list -%}
         {%- set img_url = h.url_for_static("/base/images/inspire/" + val.split('/')[-1].lower() + ".svg") -%}
-          <theme-li>
-            <img src="{{ img_url }}" title="{{ label }}" alt="{{ label }}" class="svg-icon"></img> <a href="{{ val }}">{{ label }}</a>
-          </theme-li>
+          <li>
+            <img src="{{ img_url }}" title="{{ label }}" alt="{{ label }}" class="{{ _class }}-icon"></img> <a href="{{ val }}">{{ label }}</a>
+          </li>
       {%- endif -%}
     {% endfor %}
   </ul>

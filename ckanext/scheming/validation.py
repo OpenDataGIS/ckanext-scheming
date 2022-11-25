@@ -427,10 +427,10 @@ def scheming_multiple_text(field, schema):
             return
 
         value = data[key]
-        # 1. list of strings or 2. single string
+        # 1. single string to List or 2. List
         if value is not missing:
             if isinstance(value, six.string_types):
-                value = [value]
+                value = value.split(",")
             if not isinstance(value, list):
                 errors[key].append(_('expecting list of strings'))
                 raise StopOnError
@@ -453,14 +453,18 @@ def scheming_multiple_text(field, schema):
                         continue
 
                 # Avoid errors
-                element=element.replace(',', ';')
+                if ',' in element:
+                    if 'http' in element:
+                        element=element.replace(',', '')
+                    else:
+                        element=element.replace(',', ' ')
                 out.append(element)
 
             if errors[key]:
                 raise StopOnError
 
             # Return as a string list of values
-            data[key] = ','.join([h for h in out])
+            data[key] = ','.join(map(str, out))
 
         if (data[key] is missing or data[key] == '[]') and field.get('required'):
             errors[key].append(_('Missing value'))

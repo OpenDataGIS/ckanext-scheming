@@ -32,21 +32,30 @@ li.multiple-text-field input {
   vertical-align: middle;
 }
 
+/* Keywords list*/
+.keyword-list { 
+  list-style-type: "🏷️ ";
+  vertical-align: middle;
+}
+
+.keyword-list li::marker {
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
 /* INSPIRE Themes list */
 .theme-list {
   list-style-type: none;
   padding-left: 1em;
+  line-height: 2em;
 }
 
-.theme-li {
-  display: block;
-  height: 25px;
-  line-height: 10px;
-}
-
-.theme-li img {
+.theme-list-icon {
   vertical-align: middle;
+  height: 1.6em;
+  display: inline-block;
 }
+.theme-list-icon:hover { cursor:pointer }
 
 /* try to resemble .btn-remove-url style in resource form */
 a.btn.btn-multiple-remove {
@@ -69,9 +78,8 @@ a.btn.btn-multiple-remove {
 
 /*IMG scheming links */
 .svg-icon {
-  max-height: 24px;
-  height: fit-content;
+  vertical-align: middle;
+  height: 1em;
   display: inline-block;
-  vertical-align:middle
 }
 .svg-icon:hover { cursor:pointer }

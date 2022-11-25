@@ -1,3 +1,4 @@
+{#  VARIABLE TEST PRINT: {{ values}}  #}
 {% include 'scheming/snippets/multiple_text_asset.html' %}
 
 {% import 'macros/form.html' as form %}
@@ -16,14 +17,14 @@
   </li>
 {% endmacro %}
 
-{% if data[field.field_name] is defined %}
-  {%- set values = data[field.field_name].split(',') or ([''] * field.get('form_blanks', 1)) -%}
+{%- set choices = data[field.field_name] -%}
+{% if choices is iterable and (choices is not string) %}
+  {%- set values = choices or ([''] * field.get('form_blanks', 1)) -%}
+{% elif choices is string %}
+  {%- set values = choices.split(',') or ([''] * field.get('form_blanks', 1)) -%}
 {% else %}
   {%- set values = [''] -%}
 {% endif %}
-
-{#  VARIABLE TEST PRINT: {{ values}}  #}
-
 {% call form.input_block(
   'field-' + field.field_name,
   h.scheming_language_text(field.label) or field.field_name,

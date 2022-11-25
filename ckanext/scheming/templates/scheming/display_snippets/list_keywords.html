@@ -1,24 +1,24 @@
 {#
-    Render a list of keywords URI
-  
-    list - list of links
-  #}
-  {% set _class = _class or 'link-list' %}
-  {% set snippet_list = data[field.field_name].replace(' ', '').split(',') %}
-  
-  {%- set choices = [] -%}
-  {%- set choices_uniques = [] -%}
-  {% for value in snippet_list if value not in choices_uniques %}
-    {%- do choices.append(
-      (value, value.split("/")[-1].lower())) -%}
-  {% endfor %}
-  
-  {% block snippet_list %}
-    <ul class="{{ _class }}">
-      {% for value, label  in choices|sort(attribute=1) if value|length %}
-        <li>
-          <a class="{% block theme_list_item_class %}{{ value }}{% endblock %}" href="{{ value }}">{{ label }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endblock %}
+  Render a list of keywords URI
+
+  list - list of links
+#}
+{% set _class = _class or 'link-list' %}
+{% set snippet_list = data[field.field_name].replace(' ', '').split(',') %}
+
+{%- set choices = [] -%}
+{%- set choices_uniques = [] -%}
+{% for value in snippet_list if value not in choices_uniques %}
+  {%- do choices.append(
+    (value, value.split("/")[-1].lower())) -%}
+{% endfor %}
+
+{% block snippet_list %}
+  <ul class="{{ _class }}">
+    {% for value, label  in choices|sort(attribute=1) if value|length %}
+      <li>
+        <a class="{% block theme_list_item_class %}{{ value }}{% endblock %}" href="{{ value }}">{{ label }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
