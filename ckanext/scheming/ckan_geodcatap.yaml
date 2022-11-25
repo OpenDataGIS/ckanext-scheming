@@ -7,8 +7,17 @@ about_url: https://github.com/mjanez/eikos
 # Dataset (dcat:Dataset) fields
 dataset_fields:
 
+#--Metadata basic info--
+- start_form_page:
+    title: 
+      en: Basic Info
+      es: Identificación
+    description: 
+      en: Basic metadata identification and reference information.
+      es: Información básica de identificación y referencia de los metadatos.
+
 # Dataset title (Mandatory)
-- field_name: title
+  field_name: title
   label: 
     en: Title
     es: Título
@@ -19,19 +28,6 @@ dataset_fields:
   form_placeholder:
     en: eg. A descriptive title.
     es: ej. Un título descriptivo.
-
-# Dataset abstract (Mandatory)
-- field_name: notes
-  label: 
-    en: Abstract 
-    es: Resumen
-  validators: not_empty scheming_required
-  required: true
-  form_snippet: markdown.html
-  display_property: dct:description
-  form_placeholder:
-    en: eg. Some useful description about the dataset.
-    es: ej. Una descripción útil sobre el conjunto de datos.
 
 # Dataset locator (Mandatory)
 # For all resources that is equivalent to this element, such as a URI (of dcat:Dataset) 
@@ -49,8 +45,9 @@ dataset_fields:
 - field_name: dcat_type
   label: 
     en: Resource type
-    es: Tipo de recurso 
+    es: Tipo de recurso
   preset: select
+  form_include_blank_choice: false
   validators: not_empty scheming_required
   required: true
   display_property: dct:type
@@ -58,16 +55,67 @@ dataset_fields:
   choices:
   - label:
       en: Spatial data set
-      es: Conjunto de datos
+      es: Conjunto de datos espacial
     value: https://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset
   - label:
-        en: Spatial data set series
-        es: Series de datos
+      en: Event
+      es: Evento
+    value: https://purl.org/dc/dcmitype/Event
+  - label:
+      en: Image
+      es: Imagen
+    value: https://purl.org/dc/dcmitype/Image
+  - label:
+      en: Still Image
+      es: Imagen fija
+    value: http://purl.org/dc/dcmitype/StillImage
+  - label:
+      en: Moving Image
+      es: Imagen en movimiento
+    value: https://purl.org/dc/dcmitype/MovingImage
+  - label:
+      en: Physical Object
+      es: Objeto físico
+    value: https://purl.org/dc/dcmitype/PhysicalObject
+  - label:
+      en: Interactive Resource
+      es: Recurso interactivo
+    value: https://purl.org/dc/dcmitype/InteractiveResource
+  - label:
+      en: Spatial data set series
+      es: Series de datos espaciales
     value: https://inspire.ec.europa.eu/metadata-codelist/ResourceType/series
   - label:
-        en: Spatial data service
-        es: Servicio de datos espaciales
+      en: Service
+      es: Servicio
+    value: http://purl.org/dc/dcmitype/Service
+  - label:
+      en: Spatial data service
+      es: Servicio de datos espaciales
     value: https://inspire.ec.europa.eu/metadata-codelist/ResourceType/service
+  - label:
+      en: Sound
+      es: Sonido
+    value: http://purl.org/dc/dcmitype/Sound
+  - label:
+      en: Software
+      es: Software
+    value: http://purl.org/dc/dcmitype/Software
+  - label:
+      en: Text
+      es: Texto
+    value: http://purl.org/dc/dcmitype/Text
+
+# CKAN Org (Mandatory)
+- field_name: owner_org
+  label:
+    en: Organization
+    es: Organización
+  required: true
+  help_text:
+    en: Entity (organisation) responsible for making the Dataset available.
+    es: Entidad (organización) responsable de publicar el conjunto de datos.
+  preset: dataset_organization
 
 # Unique resource identifier (UUID)  (Mandatory). If it does not exist, CKAN creates a UUID (Metadata file identifier 'package_id')
 - field_name: identifier
@@ -83,52 +131,366 @@ dataset_fields:
     es: Identificador único de recurso. Ej. (a) Un código de cadena de caracteres obligatorio y por (b) un espacio de nombres de cadena de caracteres opcional (<a href="https://inspire.ec.europa.eu/implementation-identifiers-using-uris-inspire-%E2%80%93-frequently-asked-questions/59309" target="_blank">INSPIRE</a>)
   help_allow_html: True
 
+# Mandatory 
+# Metadata language
+- field_name: language
+  label:
+    en: Language
+    es: Idioma
+  preset: select
+  display_property: dct:language
+  display_snippet: link_schema.html
+  form_include_blank_choice: false
+  validators: not_empty scheming_required
+  required: true
+  choices:
+  - label:
+      en: Spanish
+      es: Español
+    value: https://publications.europa.eu/resource/authority/language/SPA
+  - label:
+      en: English
+      es: Inglés
+    value: https://publications.europa.eu/resource/authority/language/ENG
+
 # inspireId (Optional)
 - field_name: alternate_identifier
   label: 
-    en: Universal identifier from INSPIRE
-    es: Identificador INSPIRE
-  required: false
+    en: Alternate identifier
+    es: Identificador alternativo
   display_property: adms:identifier
   form_placeholder: ES.LU.IEPNB.IEPZ.2022
   help_text:
-    en: eg. inspireId = namespace (ES.LU.IEPNB) + localId (IEPZ) + versionId (2022)
-    es: ej. inspireId = namespace (ES.LU.IEPNB) + localId (IEPZ) + versionId (2022)
-
-# CKAN Org (Mandatory)
-- field_name: owner_org
-  label:
-    en: Organization
-    es: Organización
-  help_text:
-    en: Entity (organisation) responsible for making the Dataset available.
-    es: Entidad (organización) responsable de publicar el conjunto de datos.
-  preset: dataset_organization
+    en: 'eg. inspireId = namespace (ES.LU.IEPNB) + localId (IEPZ) + versionId (2022) (INSPIRE) | <a href="https://eur-lex.europa.eu/eli-register/about.html" target="_blank">ELI (UE)</a>'
+    es: 'ej. inspireId = namespace (ES.LU.IEPNB) + localId (IEPZ) + versionId (2022) (INSPIRE) | <a href="https://eur-lex.europa.eu/eli-register/about.html" target="_blank">ELI (UE)</a>'
+  help_allow_html: True
 
 # Keyword value (Mandatory)
 # Recommended  (GeoDCAT-AP)  / INSPIRE Mandatory as keywords/topics
 - field_name: tag_string
   label: 
-    en: Topic categories in accordance with ISO-19115
-    es: Categorías de temas conforme a ISO-19115
+    en: Topic categories in accordance with ISO-19115/INSPIRE MD Register
+    es: Categorías de temas conforme a ISO-19115/Registro INSPIRE
   preset: tag_string_autocomplete
   display_property: dct:subject
-  form_placeholder:
-    en: 'Keywords as: economy, environment, biota, ...'
-    es: 'Palabras clave como: economy, environment, biota, ...'
+  form_placeholder: 'environment'
   help_text:
-    en: '<a href="https://inspire.ec.europa.eu/metadata-codelist/TopicCategory" target="_blank">Topic categories</a> (INSPIRE)'
-    es: '<a href="https://inspire.ec.europa.eu/metadata-codelist/TopicCategory" target="_blank">Categorías</a> (INSPIRE)'
+    en: '<a href="https://inspire.ec.europa.eu/metadata-codelist" target="_blank">Metadata code list register</a> (INSPIRE)'
+    es: '<a href="https://inspire.ec.europa.eu/metadata-codelist/TopicCategory" target="_blank">Registro de listas controladas de metadatos</a> (INSPIRE)'
   help_allow_html: True
+
+# TODO: Add as scheming_datastore_choices (helpers.py/#102) https://github.com/ckan/ckanext-scheming/issues/270
+# Only for ckanext-dcat profiles.py
+- field_name: tag_uri
+  label: 
+    en: Topic URIs
+    es: URI de categorías
+  validators: ignore_missing scheming_multiple_text
+  form_snippet: multiple_text.html
+  display_snippet: list_keywords.html
+  form_placeholder: 'https://inspire.ec.europa.eu/metadata-codelist/TopicCategory/environment'
+  help_text:
+    en: 'Metadata code list register (INSPIRE): https://inspire.ec.europa.eu/metadata-codelist/TopicCategory'
+    es: 'Registro de listas controladas de metadatos (INSPIRE): https://inspire.ec.europa.eu/metadata-codelist/TopicCategory'
+
+
+# TODO: Probably better include contact_role and contact_organization (boolean) to distinguish between vcard:Individual and vcard:Organizationto use in ckanext-dcat/profiles.py
+# Mandatory
+# Contact Point URI (Metadata pointOfContact)
+- field_name: contact_uri
+  label:
+    en: URI of the Metadata contact point
+    es: URI del punto de contacto de los Metadatos
+  display_snippet: link.html
+  form_placeholder: https://orgs.vocab.org/some-org
+
+# Mandatory
+# Contact Point name (Metadata pointOfContact)
+- field_name: contact_name
+  label:
+    en: Metadata contact point name
+    es: Nombre del punto de contacto de los Metadatos
+  display_property: dcat:contactPoint
+  form_placeholder: José Blanco
+
+# Mandatory
+# Contact Point email (Metadata pointOfContact)
+- field_name: contact_email
+  label:
+    en: Metadata contact point email
+    es: Email del punto de contacto de los Metadatos
+  validators: not_empty scheming_required
+  required: true
+  display_property: vcard:hasEmail
+  display_snippet: email.html
+  form_placeholder: joseblanco@example.com
+
+# Optional
+# Contact Point URL (Metadata pointOfContact)
+- field_name: contact_url
+  label:
+    en: Website of the Metadata contact point
+    es: Web del punto de contacto de los Metadatos
+  display_snippet: link.html
+  display_property: vcard:hasURL
+  form_placeholder: https://www.example.com
+
+## III: Responsible parties
+- start_form_page:
+    title: 
+      en: Responsible party
+      es: Responsable
+    description: 
+      en: Organization(s) responsible for the creation, management, maintenance and distribution of spatial data sets and series.
+      es: Organización(es) responsable(s) de la creación, gestión, mantenimiento y distribución de los conjuntos y series de datos espaciales.
+
+# Optional
+# Maintainer name (Contact party of resource)
+  field_name: maintainer
+  label:
+    en: Name of the resource maintainer/contact
+    es: Nombre del contacto/mantenedor del recurso
+  display_property: dcat:contactPoint
+  form_placeholder: José Blanco
+
+# Optional
+# Maintainer URI (Contact party of resource)
+- field_name: maintainer_uri
+  label:
+    en: URI of the resource maintainer/contact
+    es: URI del contacto/mantenedor del recurso
+  display_snippet: link.html
+  form_placeholder: https://orgs.vocab.org/some-org
+
+# Optional
+# Maintainer email (Contact party of resource)
+- field_name: maintainer_email
+  label:
+    en: Email of the resource maintainer/contact
+    es: Email del contacto/mantenedor del recurso
+  display_property: vcard:hasEmail
+  display_snippet: email.html
+  form_placeholder: joseblanco@example.com
+
+# Optional
+# Creator name (Responsible party of resource)
+- field_name: author
+  label:
+    en: Name of the resource creator
+    es: Nombre del creador del recurso
+  display_property: dct:creator
+  form_placeholder: José Blanco
+
+# Optional
+# Author URI (Responsible party of resource)
+- field_name: author_uri
+  label:
+    en: URI of the resource creator
+    es: URI del creador del recurso
+  display_snippet: link.html
+  form_placeholder: https://orgs.vocab.org/some-org
+
+# Optional
+# Creator email (Responsible party of resource)
+- field_name: author_email
+  label:
+    en: Email of the resource creator
+    es: Email del creador del recurso
+  display_property: vcard:hasEmail
+  display_snippet: email.html
+  form_placeholder: joseblanco@example.com
+
+# Mandatory
+# Publisher name (Responsible party of resource)
+- field_name: publisher_name
+  label:
+    en: Name of the publisher
+    es: Nombre del publicador
+  display_property: foaf:name
+  form_placeholder: José Blanco
+
+# Mandatory
+# Publisher email (Responsible party of resource)
+- field_name: publisher_email
+  label:
+    en: Email of the publisher
+    es: Email del publicador
+  display_property: foaf:mbox
+  display_snippet: email.html
+  form_placeholder: joseblanco@example.com
+
+# Mandatory
+# Publisher identifier (Responsible party of resource)
+- field_name: publisher_identifier
+  label:
+    en: Identifier of the publisher
+    es: Identificador del publicador
+  display_property: dct:identifier
+  form_placeholder: E05068001
+  help_text:
+    en: "Unique identifier of the publisher. Spain: Unique identifier (DIR3) of the public organization (<a href='https://datos.gob.es/es/recurso/sector-publico/org/Organismo' target='_blank'>datos.gob.es</a>)."
+    es: "Identificador único del publicador. España: Identificador único (DIR3) del organismo público. (<a href='https://datos.gob.es/es/recurso/sector-publico/org/Organismo' target='_blank'>datos.gob.es</a>)"
+  help_allow_html: True
+
+# Mandatory
+# Publisher URL (Responsible party of resource)
+- field_name: publisher_url
+  label:
+    en: Website of the publisher
+    es: Web del publicador
+  display_property: foaf:homepage
+  display_snippet: link.html
+  form_placeholder: https://www.example.com
+  help_text:
+    en: Esta propiedad se refiere a una página web que actúa como página principal del publicador. URL
+    es: Esta propiedad se refiere a una página web que actúa como página principal del publicador. URL
+
+# Mandatory
+# Publisher URI (Responsible party of resource)
+- field_name: publisher_uri
+  label:
+    en: URI of the publisher
+    es: URI del publicador
+  display_snippet: link.html
+  form_placeholder: https://orgs.vocab.org/some-org
+  help_text:
+    en: This property refers to an Agent (organisation) responsible for making the Catalogue Record available. URI
+    es: Esta propiedad se refiere a un agente (organización) responsable de poner a disposición el registro del catálogo. URI
+
+# Mandatory
+# Publisher Type (Responsible party of resource)
+- field_name: publisher_type
+  label:
+    en: Type of the publisher
+    es: Tipo de publicador
+  preset: select
+  display_property: dct:type
+  display_snippet: link_schema.html
+  choices:
+  - label:
+      en: National authority
+      es: Autoridad nacional
+    value: https://purl.org/adms/publishertype/NationalAuthority
+  - label:
+      en: Regional authority
+      es: Autoridad regional
+    value: https://purl.org/adms/publishertype/RegionalAuthority
+  - label:
+      en: Supranational authority
+      es: Autoridad supranacional
+    value: https://purl.org/adms/publishertype/SupraNationalAuthority
+  - label:
+      en: Local authority
+      es: Autoridad local
+    value: https://purl.org/adms/publishertype/LocalAuthority
+  - label:
+      en: Non profit organisation
+      es: Organización sin animo de lucro
+    value: https://purl.org/adms/publishertype/NonProfitOrganisation
+
+##--QUALITY TAB--
+- start_form_page:
+    title: 
+      en: Quality
+      es: Calidad
+    description: 
+      en: Data quality information.
+      es: Información sobre Calidad de los datos.
+
+# Dataset abstract (Mandatory)
+  field_name: notes
+  label: 
+    en: Abstract 
+    es: Resumen
+  form_snippet: markdown.html
+  display_property: dct:description
+  form_placeholder:
+    en: eg. Some useful description about the dataset.
+    es: ej. Una descripción útil sobre el conjunto de datos.
+
+# Mandatory
+# Conformity
+- field_name: conforms_to
+  label: 
+    en: Conformity 
+    es: Conformidad
+  validators: ignore_missing scheming_multiple_text
+  required: false
+  form_snippet: multiple_text.html
+  display_property: dct:conformsTo
+  display_snippet: list_links.html
+  form_placeholder: 'https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
+  help_text:
+    en: 'Implementing rule (eg. INSPIRE) or other specification (eg. EPSG).URLs e.g: https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
+    es: 'Conformidad con normativas (Reglamento INSPIRE) o especificaciones (ej. EPSG). URLs e.j:https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
+
+# Mandatory
+# Lineage
+- field_name: provenance
+  label: 
+    en: Lineage statement
+    es: Declaración de linaje
+  form_snippet: markdown.html
+  display_property: dct:provenance
+  form_placeholder:
+    en: Means the history of a data set, and the life cycle from collection and acquisition through compilation and derivation to its current form, in accordance with EN ISO-19101
+    es: Historia de un conjunto de datos y su ciclo de vida desde su recogida y adquisición hasta su compilación y derivación hasta su forma actual, con arreglo a la norma EN ISO-19101
+
+# Source (Optional)
+- field_name: source
+  label: 
+    en: Source dataset
+    es: Conjunto de datos de origen
+  display_property: dct:source
+  display_snippet: link.html
+  form_placeholder: https://iepnb.es/catalogodatos/en/dataset/fc21c1a5-4c02-4157-9d2f-9a2cd200f908
+  help_text:
+    en: This property refers to a related Dataset from which the described Dataset is derived. URI
+    es: Esta propiedad hace referencia a un conjunto de datos relacionado del que deriva el conjunto de datos descrito. URI
+
+# Lineage source (Conditional)
+- field_name: lineage_source
+  label: 
+    en: Sources
+    es: Fuentes
+  form_snippet: multiple_text.html
+  validators: ignore_missing scheming_multiple_text
+  display_property: dct:source
+  display_snippet: list_raws_ordered.html
+  form_placeholder: Términos Municipales según el Registro Central de Cartografía. Diciembre de 2013
+  help_text:
+    en: Information about the data source used in the creation of the data specified in the scope. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system. [Do not use ',' shall be replaced by ';']
+    es: Información sobre la fuente de datos usada en la creación de los datos especificados en el ámbito. La mejor práctica es identificar el recurso relacionado por medio de un URI o una cadena conforme a un sistema de identificación formal. [No usar ',' se sustituirán por ';']
+
+# Lineage process steps (Conditional)
+- field_name: lineage_process_steps
+  label: 
+    en: Process steps
+    es: Pasos del proceso
+  form_snippet: multiple_text.html
+  validators: ignore_missing scheming_multiple_text
+  display_snippet: list_raws_ordered.html
+  form_placeholder: 'Selección de geometría que representa entes del mundo real.'
+  help_text:
+    en: General description of how the resource was developed or an event associated with the resource. [Do not use ',' shall be replaced by ';']
+    es: Descripción general de cómo se desarrolló el recurso o de un acontecimiento asociado al mismo. [No usar ',' se sustituirán por ';']
+
+##--SPATIAL--
+- start_form_page:
+    title: 
+      en: Spatial info
+      es: Espacial
+    description: 
+      en: Spatial capabilities information.
+      es: Información sobre las capacidades espaciales.
 
 # INSPIRE Theme (Mandatory)
 # Recommended (GeoDCAT-AP) / INSPIRE Mandatory as keywords/topics
-- field_name: theme
+  field_name: theme
   label:
     en: INSPIRE Themes
     es: Temas INSPIRE
-  validators: not_empty scheming_required scheming_multiple_choice
-  required: true
+  validators: ignore_missing scheming_multiple_choice
   form_snippet: multiple_select.html
   display_property: dcat:theme
   display_snippet: themes.html
@@ -275,299 +637,12 @@ dataset_fields:
       es: Zonas sujetas a ordenación, a restricciones o reglamentaciones y unidades de notificación (AM)
     value: https://inspire.ec.europa.eu/theme/am
 
-# Conditions for access and use (Mandatory)
-- field_name: license_id
-  label: 
-    en: License
-    es: Licencia
-  form_snippet: license.html
-  display_property: dct:license
-  help_text:
-    en: 'License definitions and additional information can be found at: <a href="https://opendefinition.org/" target="_blank">Open Definition</a>'
-    es: 'Las definiciones de las licencias y la información adicional pueden encontrarse en: <a href="https://opendefinition.org/" target="_blank">Open Definition</a>'
-  help_allow_html: True
-
-# TODO: Probably better include contact_role and contact_organization (boolean) to distinguish between vcard:Individual and vcard:Organizationto use in ckanext-dcat/profiles.py
-# Mandatory
-# Contact Point URI (Metadata pointOfContact)
-- field_name: contact_uri
-  label:
-    en: URI of the Metadata contact point
-    es: URI del punto de contacto de los Metadatos
-  display_snippet: link.html
-  form_placeholder: https://orgs.vocab.org/some-org
-
-# Mandatory
-# Contact Point name (Metadata pointOfContact)
-- field_name: contact_name
-  label:
-    en: Metadata contact point name
-    es: Nombre del punto de contacto de los Metadatos
-  display_property: dcat:contactPoint
-  form_placeholder: José Blanco
-
-# Mandatory
-# Contact Point email (Metadata pointOfContact)
-- field_name: contact_email
-  label:
-    en: Metadata contact point email
-    es: Email del punto de contacto de los Metadatos
-  display_property: vcard:hasEmail
-  display_snippet: email.html
-  form_placeholder: joseblanco@example.com
-
-# Optional
-# Contact Point URL (Metadata pointOfContact)
-- field_name: contact_url
-  label:
-    en: Website of the Metadata contact point
-    es: Web del punto de contacto de los Metadatos
-  display_snippet: link.html
-  display_property: vcard:hasURL
-  form_placeholder: https://www.example.com
-
-# Optional
-# Maintainer name (Contact party of resource)
-- field_name: maintainer
-  label:
-    en: Name of the resource maintainer/contact
-    es: Nombre del contacto/mantenedor del recurso
-  display_property: dcat:contactPoint
-  form_placeholder: José Blanco
-
-# Optional
-# Maintainer URI (Contact party of resource)
-- field_name: maintainer_uri
-  label:
-    en: URI of the resource maintainer/contact
-    es: URI del contacto/mantenedor del recurso
-  display_snippet: link.html
-  form_placeholder: https://orgs.vocab.org/some-org
-
-# Optional
-# Maintainer email (Contact party of resource)
-- field_name: maintainer_email
-  label:
-    en: Email of the resource maintainer/contact
-    es: Email del contacto/mantenedor del recurso
-  display_property: vcard:hasEmail
-  display_snippet: email.html
-  form_placeholder: joseblanco@example.com
-
-# Optional
-# Creator name (Responsible party of resource)
-- field_name: author
-  label:
-    en: Name of the resource creator
-    es: Nombre del creador del recurso
-  display_property: dct:creator
-  form_placeholder: José Blanco
-
-# Optional
-# Author URI (Responsible party of resource)
-- field_name: author_uri
-  label:
-    en: URI of the resource creator
-    es: URI del creador del recurso
-  display_snippet: link.html
-  form_placeholder: https://orgs.vocab.org/some-org
-
-# Optional
-# Creator email (Responsible party of resource)
-- field_name: author_email
-  label:
-    en: Email of the resource creator
-    es: Email del creador del recurso
-  display_property: vcard:hasEmail
-  display_snippet: email.html
-  form_placeholder: joseblanco@example.com
-
-# Mandatory
-# Publisher name (Responsible party of resource)
-- field_name: publisher_name
-  label:
-    en: Name of the publisher
-    es: Nombre del publicador
-  display_property: foaf:name
-  form_placeholder: José Blanco
-
-# Mandatory
-# Publisher email (Responsible party of resource)
-- field_name: publisher_email
-  label:
-    en: Email of the publisher
-    es: Email del publicador
-  display_property: foaf:mbox
-  display_snippet: email.html
-  form_placeholder: joseblanco@example.com
-
-# Mandatory
-# Publisher identifier (Responsible party of resource)
-- field_name: publisher_identifier
-  label:
-    en: Identifier of the publisher
-    es: Identificador del publicador
-  display_property: dct:identifier
-  form_placeholder: E05068001
-  help_text:
-    en: "Unique identifier of the publisher. Spain: Unique identifier (DIR3) of the public organization (<a href='https://datos.gob.es/es/recurso/sector-publico/org/Organismo' target='_blank'>datos.gob.es</a>)."
-    es: "Identificador único del publicador. España: Identificador único (DIR3) del organismo público. (<a href='https://datos.gob.es/es/recurso/sector-publico/org/Organismo' target='_blank'>datos.gob.es</a>)"
-  help_allow_html: True
-
-# Mandatory
-# Publisher URL (Responsible party of resource)
-- field_name: publisher_url
-  label:
-    en: Website of the publisher
-    es: Web del publicador
-  display_property: foaf:homepage
-  display_snippet: link.html
-  form_placeholder: https://www.example.com
-  help_text:
-    en: Esta propiedad se refiere a una página web que actúa como página principal del publicador. URL
-    es: Esta propiedad se refiere a una página web que actúa como página principal del publicador. URL
-
-# Mandatory
-# Publisher URI (Responsible party of resource)
-- field_name: publisher_uri
-  label:
-    en: URI of the publisher
-    es: URI del publicador
-  display_snippet: link.html
-  form_placeholder: https://orgs.vocab.org/some-org
-  help_text:
-    en: This property refers to an Agent (organisation) responsible for making the Catalogue Record available. URI
-    es: Esta propiedad se refiere a un agente (organización) responsable de poner a disposición el registro del catálogo. URI
-
-# Mandatory
-# Publisher Type (Responsible party of resource)
-- field_name: publisher_type
-  label:
-    en: Type of the publisher
-    es: Tipo de publicador
-  preset: select
-  display_property: dct:type
-  display_snippet: link_schema.html
-  choices:
-  - label:
-      en: National authority
-      es: Autoridad nacional
-    value: https://purl.org/adms/publishertype/NationalAuthority
-  - label:
-      en: Regional authority
-      es: Autoridad regional
-    value: https://purl.org/adms/publishertype/RegionalAuthority
-  - label:
-      en: Supranational authority
-      es: Autoridad supranacional
-    value: https://purl.org/adms/publishertype/SupraNationalAuthority
-  - label:
-      en: Local authority
-      es: Autoridad local
-    value: https://purl.org/adms/publishertype/LocalAuthority
-  - label:
-      en: Non profit organisation
-      es: Organización sin animo de lucro
-    value: https://purl.org/adms/publishertype/NonProfitOrganisation
-
-# Mandatory 
-# Metadata language
-- field_name: language
-  label:
-    en: Language
-    es: Idioma
-  preset: select
-  display_property: dct:language
-  display_snippet: link_schema.html
-  form_include_blank_choice: true
-  validators: not_empty scheming_required
-  required: true
-  choices:
-  - label:
-      en: Spanish
-      es: Español
-    value: https://publications.europa.eu/resource/authority/language/SPA
-  - label:
-      en: English
-      es: Inglés
-    value: https://publications.europa.eu/resource/authority/language/ENG
-
-# Mandatory
-# Lineage
-- field_name: provenance
-  label: 
-    en: Lineage
-    es: Linaje
-  form_snippet: markdown.html
-  display_property: dct:provenance
-  form_placeholder:
-    en: Means the history of a data set, and the life cycle from collection and acquisition through compilation and derivation to its current form, in accordance with EN ISO-19101
-    es: Historia de un conjunto de datos y su ciclo de vida desde su recogida y adquisición hasta su compilación y derivación hasta su forma actual, con arreglo a la norma EN ISO-19101
-
-# Source (Optional)
-- field_name: source
-  label: 
-    en: Source dataset
-    es: Conjunto de datos de origen
-  display_property: dct:source
-  display_snippet: link.html
-  form_placeholder: https://iepnb.es/catalogodatos/en/dataset/fc21c1a5-4c02-4157-9d2f-9a2cd200f908
-  help_text:
-    en: This property refers to a related Dataset from which the described Dataset is derived. URI
-    es: Esta propiedad hace referencia a un conjunto de datos relacionado del que deriva el conjunto de datos descrito. URI
-
-# Lineage source (Conditional)
-- field_name: lineage_source
-  label: 
-    en: Sources
-    es: Fuentes
-  form_snippet: multiple_text.html
-  validators: scheming_multiple_text
-  display_property: dct:source
-  display_snippet: list_raws_ordered.html
-  form_placeholder: Términos Municipales según el Registro Central de Cartografía. Diciembre de 2013
-  help_text:
-    en: Information about the data source used in the creation of the data specified in the scope. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system. [Do not use ',' shall be replaced by ';']
-    es: Información sobre la fuente de datos usada en la creación de los datos especificados en el ámbito. La mejor práctica es identificar el recurso relacionado por medio de un URI o una cadena conforme a un sistema de identificación formal. [No usar ',' se sustituirán por ';']
-
-# Lineage process steps (Conditional)
-- field_name: lineage_process_steps
-  label: 
-    en: Process steps
-    es: Pasos del proceso
-  form_snippet: multiple_text.html
-  validators: scheming_multiple_text
-  display_snippet: list_raws_ordered.html
-  form_placeholder: 'Selección de geometría que representa entes del mundo real.'
-  help_text:
-    en: General description of how the resource was developed or an event associated with the resource. [Do not use ',' shall be replaced by ';']
-    es: Descripción general de cómo se desarrolló el recurso o de un acontecimiento asociado al mismo. [No usar ',' se sustituirán por ';']
-
-
-# Mandatory
-# Conformity
-- field_name: conforms_to
-  label: 
-    en: Conformity 
-    es: Conformidad
-  validators: not_empty scheming_required scheming_multiple_text
-  required: true
-  form_snippet: multiple_text.html
-  display_property: dct:conformsTo
-  display_snippet: list_links.html
-  form_placeholder: 'https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
-  help_text:
-    en: 'Implementing rule (eg. INSPIRE) or other specification (eg. EPSG).URLs e.g: https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
-    es: 'Conformidad con normativas (Reglamento INSPIRE) o especificaciones (ej. EPSG). URLs e.j:https://inspire.ec.europa.eu/documents/commission-regulation-eu-no-13122014-10-december-2014-amending-regulation-eu-no-10892010-0'
-
 # Mandatory
 # Geographic bounding box
 - field_name: spatial
   label: 
     en: Bounding Box
     es: Extensión espacial
-  validators: not_empty scheming_required
-  required: true
   form_snippet: json.html
   display_property: dct:spatial
   form_placeholder: '{"type": "Polygon", "coordinates": [[[-18.273563, 27.549025], [4.440455, 27.549025], [4.440455, 43.855133], [-18.273563, 43.855133], [-18.273563, 27.549025]]]}'
@@ -627,6 +702,27 @@ dataset_fields:
     en: Specify spatial resolution as distance in metres.
     es: Especifique la resolución espacial como distancia en metros
 
+##--LICENSE--
+- start_form_page:
+    title: 
+      en: License info
+      es: Licencia
+    description: 
+      en: Information on licenses and restrictions on use and access.
+      es: Información sobre licencias y restricciones de uso y acceso.
+
+# Conditions for access and use (Mandatory)
+  field_name: license_id
+  label: 
+    en: License
+    es: Licencia
+  form_snippet: license.html
+  display_property: dct:license
+  help_text:
+    en: 'License definitions and additional information can be found at: <a href="https://opendefinition.org/" target="_blank">Open Definition</a>'
+    es: 'Las definiciones de las licencias y la información adicional pueden encontrarse en: <a href="https://opendefinition.org/" target="_blank">Open Definition</a>'
+  help_allow_html: True
+
 # Recommended
 # Limitations on public access
 - field_name: access_rights
@@ -636,8 +732,7 @@ dataset_fields:
   preset: select
   display_snippet: link_schema.html
   display_property: dct:accessRights
-  validators: not_empty scheming_required
-  required: true
+  form_include_blank_choice: false
   choices:
   - label:
       en: No limitations to public access
@@ -769,8 +864,6 @@ resource_fields:
   preset: select
   display_snippet: link_schema.html
   display_property: dct:rights
-  validators: not_empty scheming_required
-  required: true
   choices:
   - label:
       en: No limitations to public access
@@ -834,7 +927,7 @@ resource_fields:
   label: 
     en: Conformity 
     es: Conformidad
-  validators: scheming_multiple_text
+  validators: ignore_missing scheming_multiple_text
   form_snippet: multiple_text.html
   display_property: dct:conformsTo
   display_snippet: list_links.html
