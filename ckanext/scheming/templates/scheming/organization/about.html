@@ -31,7 +31,11 @@
         {%- if f.field_name not in exclude_fields -%}
             <tr>
                 <th scope="row" class="dataset-label">{{ h.scheming_language_text(f.label) }}</th>
-                <td class="dataset-details">{{ group_dict[f.field_name] or ("&nbsp;"|safe) }}</td>
+                {%- if "http" in group_dict[f.field_name] %}
+                    <td class="dataset-details">{{ h.link_to(group_dict[f.field_name].split('/')[-1], group_dict[f.field_name] or ("&nbsp;"|safe)) }}</td>
+                {%- else %}
+                    <td class="dataset-details">{{ group_dict[f.field_name] or ("&nbsp;"|safe) }}</td>
+                {%- endif %}
             </tr>
         {%- endif -%}
     {%- endfor -%}
