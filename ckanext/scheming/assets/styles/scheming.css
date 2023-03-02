@@ -43,19 +43,19 @@ li.multiple-text-field input {
   vertical-align: middle;
 }
 
-/* INSPIRE Themes list */
-.theme-list {
+/* INSPIRE Themes list-NTI-RISP spatial URIs list */
+.scheming-icon-list {
   list-style-type: none;
   padding-left: 1em;
   line-height: 2em;
 }
 
-.theme-list-icon {
+.scheming-icon-list-icon {
   vertical-align: middle;
   height: 1.6em;
   display: inline-block;
 }
-.theme-list-icon:hover { cursor:pointer }
+.scheming-icon-list-icon:hover { cursor:pointer }
 
 /* try to resemble .btn-remove-url style in resource form */
 a.btn.btn-multiple-remove {
@@ -75,11 +75,3 @@ a.btn.btn-multiple-remove {
 .radio-group label {
   font-weight: normal;
 }
-
-/*IMG scheming links */
-.svg-icon {
-  vertical-align: middle;
-  height: 1em;
-  display: inline-block;
-}
-.svg-icon:hover { cursor:pointer }

@@ -1,21 +1,21 @@
 {#
-  Render a list of INSPIRE Themes linking to the theme page
+  Render a list of NTI-RISP spatial URIs
 
-  themes_list - list of themes
+  spatial_uris_list - list of URIs
 #}
 {% set _class = _class or 'scheming-icon-list' %}
-{% set themes_list = data[field.field_name] %}
+{% set spatial_uris_list = data[field.field_name] %}
 {%- set choices = [] -%}
 {%- for c in h.scheming_field_choices(field) -%}
   {%- do choices.append(
     (c.value, h.scheming_language_text(c.label))) -%}
 {%- endfor -%}
 
-{% block theme_list %}
+{% block spatial_uris_list %}
   <ul class="{{ _class }}">
     {%- for val, label in choices -%}
-      {%- if val in themes_list -%}
-        {%- set img_url = h.url_for_static('/images/icons/inspire/' + val.split('/')[-1].lower() + '.svg') -%}
+      {%- if val in spatial_uris_list -%}
+        {%- set img_url = h.url_for_static('/images/icons/theme_es/spain.svg') -%}
           <li>
             <img src="{{ img_url }}" title="{{ label }}" alt="{{ label }}" class="{{ _class }}-icon"></img> <a href="{{ val }}">{{ label }}</a>
           </li>

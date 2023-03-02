@@ -1,5 +1,5 @@
 {#
-  Render a list of INSPIRE Themes linking to the theme page
+  Render a list of NTI-RISP Themes linking to the theme page
 
   themes_list - list of themes
 #}
@@ -15,7 +15,7 @@
   <ul class="{{ _class }}">
     {%- for val, label in choices -%}
       {%- if val in themes_list -%}
-        {%- set img_url = h.url_for_static('/images/icons/inspire/' + val.split('/')[-1].lower() + '.svg') -%}
+        {%- set img_url = h.url_for_static('/images/icons/theme_es/' + val.split('/')[-1].lower() + '.png') -%}
           <li>
             <img src="{{ img_url }}" title="{{ label }}" alt="{{ label }}" class="{{ _class }}-icon"></img> <a href="{{ val }}">{{ label }}</a>
           </li>
