@@ -1,4 +1,3 @@
-{#  VARIABLE TEST PRINT: {{ values}}  #}
 {% include 'scheming/snippets/multiple_text_asset.html' %}
 
 {% import 'macros/form.html' as form %}
@@ -8,7 +7,7 @@
     <input
       type="text"
       name="{{ field.field_name }}"
-      value="{{ element }}"
+      value="{{ element.strip() }}"
       class="form-control"
       {{ form.attributes(field.form_attrs if 'form_attrs' in field else {}) }} />
     <a class="btn btn-default btn-multiple-remove" name="multiple-remove" href="javascript:;"
@@ -18,13 +17,15 @@
 {% endmacro %}
 
 {%- set choices = data[field.field_name] -%}
+
 {% if choices is iterable and (choices is not string) %}
   {%- set values = choices or ([''] * field.get('form_blanks', 1)) -%}
 {% elif choices is string %}
-  {%- set values = choices.split(',') or ([''] * field.get('form_blanks', 1)) -%}
+  {%- set values = h.scheming_display_json_list(choices).strip('][').split('",') or ([''] * field.get('form_blanks', 1)) -%}
 {% else %}
   {%- set values = [''] -%}
 {% endif %}
+
 {% call form.input_block(
   'field-' + field.field_name,
   h.scheming_language_text(field.label) or field.field_name,
@@ -35,7 +36,7 @@
   <fieldset name="{{ field.field_name }}" class="scheming-fieldset" data-module="scheming-multiple-text">
     <ol class="multiple-text-group">
       {%- for element in values -%}
-        {{ multiple_text(element, errors[field.field_name] if loop.index == 1 else "") }}
+        {{ h.scheming_clean_json_value(multiple_text(element, errors[field.field_name] if loop.index == 1 else "")) }}
       {%- endfor -%}
     </ol>
 
