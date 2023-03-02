@@ -1,25 +1,26 @@
 {#
   Render a list of links
 
-  list - list of links
+  values - list of cleaned values
 #}
 
 {% set _class = _class or 'link-list' %}
 {%- set choices = data[field.field_name] -%}
 
 {% if choices is iterable and (choices is not string) %}
-  {%- set snippet_list = choices or ([''] * field.get('form_blanks', 1)) -%}
+  {%- set values = choices or ([''] * field.get('form_blanks', 1)) -%}
 {% elif choices is string %}
-  {%- set snippet_list = choices.split(',') or ([''] * field.get('form_blanks', 1)) -%}
+  {%- set values = h.scheming_display_json_list(choices).strip('][').split('",') or ([''] * field.get('form_blanks', 1)) -%}
 {% else %}
-  {%- set snippet_list = [''] -%}
+  {%- set values = [''] -%}
 {% endif %}
 
-{% block snippet_list %}
+{% block values %}
   <ul class="{{ _class }}">
-    {% for value in snippet_list if value|length %}
+    {% for value in values if value|length %}
+    {% set value = h.scheming_clean_json_value(value.replace(' ', '')) %}
       <li>
-        <a class="{% block theme_list_item_class %}{{ value }}{% endblock %}" href="{{ value.replace(' ', '') }}">{{ value.replace(' ', '') }}</a>
+        <a class="{% block theme_list_item_class %}{{ value }}{% endblock %}" href="{{ value }}">{{ value }}</a>
       </li>
     {% endfor %}
   </ul>
