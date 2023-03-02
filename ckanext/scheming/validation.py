@@ -94,7 +94,7 @@ def scheming_required(field, schema):
 def scheming_multiple_choice(field, schema):
     """
     Accept zero or more values from a list of choices and convert
-    to a json list for storage:
+    to a json list for storage. Also act like scheming_required to check for at least one non-empty string when required is true:
 
     1. a list of strings, eg.:
 
@@ -116,12 +116,16 @@ def scheming_multiple_choice(field, schema):
             return
 
         value = data[key]
+        # 1. single string to List or 2. List
         if value is not missing:
             if isinstance(value, six.string_types):
-                value = [value]
-            elif not isinstance(value, list):
+                if "[" not in value:
+                    value = value.split(",")
+                else:
+                    value = json.loads(value)
+            if not isinstance(value, list):
                 errors[key].append(_('expecting list of strings'))
-                return
+                raise StopOnError
         else:
             value = []
 
@@ -141,10 +145,10 @@ def scheming_multiple_choice(field, schema):
             errors[key].append(_('unexpected choice "%s"') % element)
 
         if not errors[key]:
-             # Return as a string list of values
-            data[key] = ','.join([v for v in
+            # Return as a JSON string list of values
+            data[key] = json.dumps([v for v in
                 (static_choice_order if static_choice_values else choice_order)
-                if v in selected])
+                if v in selected], ensure_ascii=False)
 
             if field.get('required') and not selected:
                 errors[key].append(_('Select at least one'))
@@ -276,6 +280,7 @@ def scheming_valid_json_object(value, context):
         1. A valid serialized JSON string (it must be an object or a list)
         2. An object that can be serialized to JSON
 
+    Returns a parsing JSON string 
     """
     if not value:
         return
@@ -288,13 +293,13 @@ def scheming_valid_json_object(value, context):
                     _('Unsupported value for JSON field: {}').format(value)
                 )
 
-            return value
+            return json.dumps(loaded, ensure_ascii=False)
         except (ValueError, TypeError) as e:
             raise Invalid(_('Invalid JSON string: {}').format(e))
 
     elif isinstance(value, dict):
         try:
-            return json.dumps(value)
+            return json.dumps(value, ensure_ascii=False)
         except (ValueError, TypeError) as e:
             raise Invalid(_('Invalid JSON object: {}').format(e))
     else:
@@ -407,9 +412,7 @@ def convert_to_json_if_datetime(date, context):
 @register_validator
 def scheming_multiple_text(field, schema):
     """
-    Accept repeating text input in the following forms and convert to a json list
-    for storage. Also act like scheming_required to check for at least one non-empty
-    string when required is true:
+    Accept repeating text input in the following forms and convert to a json list for storage.
 
     1. a list of strings, eg.
 
@@ -420,6 +423,7 @@ def scheming_multiple_text(field, schema):
 
        "Person One"
     """
+    
     def _scheming_multiple_text(key, data, errors, context):
         # just in case there was an error before our validator,
         # bail out here because our errors won't be useful
@@ -430,7 +434,10 @@ def scheming_multiple_text(field, schema):
         # 1. single string to List or 2. List
         if value is not missing:
             if isinstance(value, six.string_types):
-                value = value.split(",")
+                if "[" not in value:
+                    value = value.split(",")
+                else:
+                    value = json.loads(value)
             if not isinstance(value, list):
                 errors[key].append(_('expecting list of strings'))
                 raise StopOnError
@@ -447,24 +454,25 @@ def scheming_multiple_text(field, schema):
                 if isinstance(element, six.binary_type):
                     try:
                         element = element.decode('utf-8')
+                        element = element.strip()
                     except UnicodeDecodeError:
                         errors[key]. append(_('invalid encoding for "%s" value')
                                             % element)
                         continue
 
                 # Avoid errors
-                if ',' in element:
-                    if 'http' in element:
-                        element=element.replace(',', '')
-                    else:
-                        element=element.replace(',', ' ')
+                if '"' in element:
+                    element=element.replace('"', '\"')
+                if 'http' in element:
+                    element=element.replace(' ', '')
                 out.append(element)
 
             if errors[key]:
                 raise StopOnError
 
-            # Return as a string list of values
-            data[key] = ','.join(map(str, out))
+            # Return as a JSON string list of values
+            if not errors[key]:
+                data[key] = json.dumps([v for v in out], ensure_ascii=False)
 
         if (data[key] is missing or data[key] == '[]') and field.get('required'):
             errors[key].append(_('Missing value'))
