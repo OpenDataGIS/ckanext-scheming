@@ -5,7 +5,7 @@
   #}
 
   {% set _class = _class or 'link_schema-list' %}
-  {% set link_schema_list = data[field.field_name].replace(' ', '').split(',') %}
+  {% set link_schema_list = data[field.field_name] %}
 
   {%- set choices = [] -%}
   {%- for c in h.scheming_field_choices(field) -%}
