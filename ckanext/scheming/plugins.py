@@ -133,6 +133,7 @@ class _SchemingMixin(object):
         # record our plugin instance in a place where our helpers
         # can find it:
         self._store_instance(self)
+        add_public_directory(config, 'public')
         self._add_template_directory(config)
         self._load_presets(config)
 
